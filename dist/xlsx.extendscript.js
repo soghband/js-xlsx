@@ -11396,6 +11396,8 @@ function split_regex(str, re, def) {
 function getdatastr(data) {
 	if(!data) return null;
 	if(data.data) return debom(data.data);
+	console.log(data);
+	console.log(data.asNodeBuffer);
 	if(data.asNodeBuffer && has_buf) return debom(data.asNodeBuffer().toString('binary'));
 	if(data.asBinary) return debom(data.asBinary());
 	if(data._data && data._data.getContent) return debom(cc2str(Array.prototype.slice.call(data._data.getContent(),0)));
