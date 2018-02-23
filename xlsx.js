@@ -1298,6 +1298,14 @@ function cc2str(arr) {
 }
 
 function getdata(data) { return (data && data.name.slice(-4) === ".bin") ? getdatabin(data) : getdatastr(data); }
+function getdatastr(data) {
+	if(!data) return null;
+	if(data.data) return debom(data.data);
+	if(data.asNodeBuffer && has_buf) return debom(data.asNodeBuffer().toString('binary'));
+	if(data.asBinary) return debom(data.asBinary());
+	if(data._data && data._data.getContent) return debom(cc2str(Array.prototype.slice.call(data._data.getContent(),0)));
+	return null;
+}
 
 function safegetzipfile(zip, file) {
 	var f = file; if(zip.files[f]) return zip.files[f];
