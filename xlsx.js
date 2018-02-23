@@ -70,7 +70,13 @@ var Base64 = (function make_b64(){
 	};
 })();
 var has_buf = (typeof Buffer !== 'undefined');
-
+var debom = function(data) {
+	var c1 = data.charCodeAt(0), c2 = data.charCodeAt(1);
+	if(c1 == 0xFF && c2 == 0xFE) return utf16leread(data.slice(2));
+	if(c1 == 0xFE && c2 == 0xFF) return utf16beread(data.slice(2));
+	if(c1 == 0xFEFF) return data.slice(1);
+	return data;
+};
 function new_raw_buf(len) {
 	/* jshint -W056 */
 	return new (has_buf ? Buffer : Array)(len);
